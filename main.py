@@ -8,10 +8,14 @@ CACTUS = [pygame.image.load('assets/Cactus/LargeCactus1.png'),pygame.image.load(
 RESET = pygame.image.load('assets/Other/Reset.png')
 RESET_INIT = (460, 200)
 
+PTERODACTYL = [pygame.image.load('assets/Pterodactyl/Bird1.png'), pygame.image.load('assets/Pterodactyl/Bird2.png')]
+
+BUTTON = pygame.image.load('assets/Other/Button.png')
+
 TRACK = pygame.image.load('assets/Other/Track.png')
 TRACK_INIT = (0, 345)
 
-PLAYER = [pygame.image.load('assets/Dino/DinoRun1.png'), pygame.image.load('assets/Dino/DinoRun2.png'), pygame.image.load('assets/Dino/DinoDead.png')]
+PLAYER = [pygame.image.load('assets/Dino/DinoRun1.png'), pygame.image.load('assets/Dino/DinoRun2.png'), pygame.image.load('assets/Dino/DinoDead.png'), pygame.image.load('assets/Dino/DinoDuck1.png'), pygame.image.load('assets/Dino/DinoDuck2.png')]
 PLAYER_INIT = (70, 280)
 
 CLOUD = pygame.image.load('assets/Other/Cloud.png')
@@ -23,6 +27,7 @@ class Player:
     position.xy = 70, 280
     sprite = PLAYER[0:2]
     dead_sprite = PLAYER[2]
+    duck_sprite = PLAYER[3:5]
     rect = sprite[0].get_rect()
 
 class Ground:
@@ -37,7 +42,6 @@ class Cactus:
         self.sprite = CACTUS[self.type]
         self.position = pygame.Vector2()
         self.position.xy = -100, 300
-        self.rect = CACTUS[self.type].get_rect()
 
     def change_sprite(self):
         self.type = random.randrange(4)
@@ -47,20 +51,27 @@ class Cactus:
         else:
             self.position.y = 300
 
+class Pterodactyl:
+    def __init__(self):
+        self.sprite = PTERODACTYL
+        self.position = pygame.Vector2()
+        self.position.xy = 1050, random.randint(200, 300)
+
+
 class Cloud:
     def __init__(self):
         self.sprite = CLOUD
         self.position = pygame.Vector2()
         self.position.xy = random.randint(1100, 2100), random.randint(100,300)
 
-class Button(ABC):
-    pass
+class Button():
+    def __init__(self, num):
+        self.sprite = BUTTON
+        self.position = pygame.Vector2()
+        self.position.xy = 15 + num*(15 + BUTTON.get_width()), 400
 
 def check_collide(a_x, a_y, a_width, a_height, b_x, b_y, b_width, b_height):
     return (a_x + a_width >= b_x) and (a_x <= b_x + b_width) and (a_y + a_height >= b_y) and (a_y <= b_y + b_height)
-
-def game_over():
-    print("rip")
 
 def main():
     pygame.init()
@@ -76,7 +87,9 @@ def main():
     player = Player()
     grounds = [Ground(), Ground()]
     cactuses = [Cactus(), Cactus(), Cactus()]
+    pterodactyl = Pterodactyl()
     clouds = [Cloud(), Cloud(), Cloud()]
+    buttons = [Button(0), Button(1), Button(2)]
     grounds[0].position.x = 0
     grounds[1].position.x = grounds[1].sprite.get_width()
     dead = False
@@ -89,6 +102,7 @@ def main():
     acceleration = 0.1
     run_state = True
     curr_ground = False
+    ducking = False
     next_cactus = random.randint(30,40)
 
     # game loop
@@ -114,27 +128,41 @@ def main():
         for c in clouds:
             DISPLAY.blit(c.sprite, (c.position.x, c.position.y))
         if not dead:
-            DISPLAY.blit(player.sprite[run_state], ((player.position.x, player.position.y)))
+            if ducking:
+                player.position.y = PLAYER_INIT[1] + 30
+                DISPLAY.blit(player.duck_sprite[run_state], player.position.xy)
+            else:
+                if player.position.y > PLAYER_INIT[1]:
+                    player.position.y = PLAYER_INIT[1]
+                DISPLAY.blit(player.sprite[run_state], player.position.xy)
         else:
-            game_over()
             if score != 0:
                 if score > high_score:
                     high_score = score
+            if ducking:
+                player.position.y = PLAYER_INIT[1]
             DISPLAY.blit(player.dead_sprite, ((player.position.x, player.position.y)))
             DISPLAY.blit(gameover, (250, 150))
             DISPLAY.blit(RESET, (RESET_INIT[0],RESET_INIT[1]))
         for c in cactuses:
-            DISPLAY.blit(c.sprite, (c.position.x, c.position.y))
+            DISPLAY.blit(c.sprite, (c.position.xy))
             #check collision between player and cactus
             if check_collide(player.position.x, player.position.y, player.sprite[0].get_width()-10, player.sprite[0].get_height()-40,c.position.x, c.position.y, c.sprite.get_width(), c.sprite.get_height()) and timer > 10 and dead == False:
                 dead = True
 
+        DISPLAY.blit(pterodactyl.sprite[(timer//50)%2], (pterodactyl.position.xy))
+        #check collision between player and pterodactyl
+        if check_collide(player.position.x, player.position.y, player.sprite[0].get_width()-10, player.sprite[0].get_height()-40,pterodactyl.position.x, pterodactyl.position.y, pterodactyl.sprite[0].get_width(), pterodactyl.sprite[0].get_height()) and timer > 10 and dead == False:
+            dead = True
+        for b in buttons:
+            DISPLAY.blit(b.sprite, (b.position.xy))
+
         if dead:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            print(mouse_x)
             if (check_collide(mouse_x, mouse_y, 3, 3, RESET_INIT[0], RESET_INIT[1], RESET.get_width(), RESET.get_height()) and pygame.mouse.get_pressed() == (1,0,0)) or keys[K_SPACE]:
                 cactuses = (Cactus(), Cactus(), Cactus())
                 grounds = (Ground(), Ground())
+                pterodactyl = Pterodactyl()
                 dead = not dead
                 timer = 0
                 grounds[0].position.x = 0
@@ -148,6 +176,7 @@ def main():
         if not dead:
             grounds[0].position.x -= 4
             grounds[1].position.x -= 4
+            pterodactyl.position.x -= 4
             for c in clouds:
                 c.position.x -= 2
                 if c.position.x <= -100:
@@ -160,8 +189,14 @@ def main():
         #jumping
         if player.position.y >= PLAYER_INIT[1]:
             y_velocity = 0
-        if keys[pygame.K_SPACE] and player.position.y >= PLAYER_INIT[1]:
+        if (keys[pygame.K_SPACE] or keys[pygame.K_UP]) and player.position.y >= PLAYER_INIT[1]:
             y_velocity = -5.5
+
+        #ducking
+        if (player.position.y == PLAYER_INIT[1] or player.position.y == PLAYER_INIT[1] + 30) and keys[K_DOWN]:
+            ducking = True
+        else:
+            ducking = False
         
         #change between running sprites
         if timer%25 == 0 and player.position.y >= PLAYER_INIT[1] and not dead:
@@ -181,6 +216,11 @@ def main():
                     c.change_sprite()
                     DISPLAY.blit(c.sprite, (c.position.x, c.position.y))
                     break
+
+        if timer%random.randint(50,100) == 0:
+            if pterodactyl.position.x < -300:
+                pterodactyl.position.x = 1050
+                pterodactyl.position.y = random.randint(200,300)
 
         
         timer += 1
