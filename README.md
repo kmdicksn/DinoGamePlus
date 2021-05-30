@@ -7,7 +7,7 @@ Up / Space for Jump
 Down for Duck
 
 Flying:
-Up / Down for going up and down
+Up and Down for going up and down
 
 Upgrades:
 Click buttons with mouse
@@ -15,3 +15,6 @@ Click buttons with mouse
 # Screenshots
 
 ![](https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/001/556/236/datas/gallery.jpg)
+![](https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/001/556/238/datas/gallery.jpg)
+![](https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/001/556/235/datas/gallery.jpg)
+![](https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/001/556/237/datas/gallery.jpg)
