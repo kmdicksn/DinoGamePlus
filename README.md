@@ -18,3 +18,9 @@ Click buttons with mouse
 ![](https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/001/556/238/datas/gallery.jpg)
 ![](https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/001/556/235/datas/gallery.jpg)
 ![](https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/001/556/237/datas/gallery.jpg)
+
+# Installation
+
+Before playing, the dependencies ipinfo and pagans are needed and can be installed via:
+* pip install pygame
+* pop install ipinfo
