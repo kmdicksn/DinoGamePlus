@@ -21,6 +21,6 @@ Click buttons with mouse
 
 # Installation
 
-Before playing, the dependencies ipinfo and pagans are needed and can be installed via:
+Before playing, the dependencies ipinfo and pygame are needed and can be installed via:
 * pip install pygame
-* pop install ipinfo
+* pip install ipinfo
