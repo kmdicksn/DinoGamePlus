@@ -293,7 +293,7 @@ def main():
                 fly_cost = 10
                 jump_cost = 5
                 life_cost = 15
-                money = 99
+                money = 0
                 for c in cactuses:
                     c.reset()
                 for g in grounds:
@@ -311,23 +311,21 @@ def main():
         for b in buttons:
             if mouse_clicked and check_collide(mouse_x, mouse_y, 3, 3, b.position.x, b.position.y, BUTTON.get_height() +30, BUTTON.get_width()+30) and not dead:
                 if b.type == 0 and jump_cost <= money and jump_timer == 0 and fly_timer == 0:
-                    pygame.mixer.Sound.play(CLICK)
+                    pygame.mixer.Sound.play(UPGRADE)
                     money -= jump_cost
                     jump_cost = round(jump_cost*1.5)
                     if jump_cost >= 100:
                         jump_cost = 99
-                    print("BUY DBL")
                     jump_timer = 2000
                 elif b.type == 1 and fly_cost <= money and fly_timer == 0 and jump_timer == 0:
-                    pygame.mixer.Sound.play(CLICK)
+                    pygame.mixer.Sound.play(UPGRADE)
                     money -= fly_cost
                     fly_cost = round(fly_cost*1.5)
                     if fly_cost >= 100:
                         fly_cost = 99
-                    print("BUY FLY")
                     fly_timer = 4000
                 elif b.type == 2 and life_cost <= money:
-                    pygame.mixer.Sound.play(CLICK)
+                    pygame.mixer.Sound.play(UPGRADE)
                     money -= life_cost
                     life_cost = round(life_cost*1.5)
                     if life_cost >= 100:
