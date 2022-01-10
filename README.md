@@ -1,5 +1,5 @@
 # DinoGamePlus
-A faithful recreation of the classic no-internet dinosaur game on Chrome in Python, with some tweaks.
+An recreation of the Dinosaur game, with some tweaks.
 
 # Controls
 Running:
@@ -11,6 +11,13 @@ Up and Down for going up and down
 
 Upgrades:
 Click buttons with mouse
+
+# Screenshots
+
+![](https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/001/556/236/datas/gallery.jpg)
+![](https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/001/556/238/datas/gallery.jpg)
+![](https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/001/556/235/datas/gallery.jpg)
+![](https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/001/556/237/datas/gallery.jpg)
 
 # Installation
 
