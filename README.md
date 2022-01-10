@@ -1,5 +1,5 @@
 # DinoGamePlus
-An upgrade to the infamous offline Chrome Dinosaur Game created using Python and pygame.
+An recreation of the Dinosaur game, with some tweaks.
 
 # Controls
 Running:
