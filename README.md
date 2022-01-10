@@ -1,5 +1,5 @@
 # DinoGamePlus
-An upgrade to the infamous offline Chrome Dinosaur Game created for the 2021 MLH Hack-cade using Python and pygame.
+An upgrade to the infamous offline Chrome Dinosaur Game created using Python and pygame.
 
 # Controls
 Running:
